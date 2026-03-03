@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/formacao-paciente-grave-lancamento/',
+  base: '/formacao-paciente-grave-lancamento/v2',
   build: {
     outDir: 'dist',
     assetsDir: 'assets'

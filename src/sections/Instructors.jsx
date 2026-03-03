@@ -1,16 +1,8 @@
 import React from 'react';
-import { UserCheck, GraduationCap, Brain, ArrowRight } from 'lucide-react';
+import { UserCheck, GraduationCap, Brain } from 'lucide-react';
 import instructors from '../constants/instructorData';
-import Button from '../components/Button';
 
-const Instructors = ({ handleCTAClick }) => {
-  const scrollToHero = () => {
-    const hero = document.getElementById('hero');
-    if (hero) {
-      hero.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
+const Instructors = () => {
   return (
     <section className="py-20 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -164,19 +156,6 @@ const Instructors = ({ handleCTAClick }) => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="text-center">
-            <Button
-              variant="primary"
-              size="lg"
-              className="bg-red-600 hover:bg-red-700 text-white font-bold px-12 py-4 rounded-xl border-0 inline-flex items-center space-x-2"
-              onClick={scrollToHero}
-            >
-              <span>Entrar para o Grupo VIP</span>
-              <ArrowRight size={20} />
-            </Button>
           </div>
 
         </div>

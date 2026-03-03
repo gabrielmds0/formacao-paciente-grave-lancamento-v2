@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Plus, BookOpen, Star, Play, ArrowRight } from 'lucide-react';
-import Button from '../components/Button';
+import { Plus, BookOpen, Star, Play } from 'lucide-react';
 
-const Modules = ({ handleCTAClick }) => {
+const Modules = () => {
   const [showAll, setShowAll] = useState(false);
 
   const modules = [

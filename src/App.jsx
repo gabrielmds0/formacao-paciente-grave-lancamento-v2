@@ -1,32 +1,52 @@
-import { useState, useEffect } from 'react';
-import ReactGA from 'react-ga4';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import Hero from './sections/Hero';
-import Methodology from './sections/Methodology';
-import OnlineLearning from './sections/OnlineLearning';
-import Modules from './sections/Modules';
-import Testimonials from './sections/Testimonials';
-import Instructors from './sections/Instructors';
-import LeadCaptureModal from './components/LeadCaptureModal';
-import { useLeadModal } from './hooks/useLeadModal';
-import MobileCTA from './components/MobileCTA';
 import { captureUtmParams } from './hooks/useTracking';
 
+const Methodology = lazy(() => import('./sections/Methodology'));
+const OnlineLearning = lazy(() => import('./sections/OnlineLearning'));
+const Modules = lazy(() => import('./sections/Modules'));
+const Testimonials = lazy(() => import('./sections/Testimonials'));
+const Instructors = lazy(() => import('./sections/Instructors'));
 
 function App() {
-  const { isModalOpen, modalSource, closeModal, handleCTAClick } = useLeadModal();
+  const [renderSecondarySections, setRenderSecondarySections] = useState(false);
 
   useEffect(() => {
-    ReactGA.initialize('G-9KS3R2F2WG');
-  }, []);
+    let timeoutId = null;
+    let idleId = null;
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://t.contentsquare.net/uxa/89e8860f4d474.js';
-    script.async = true;
-    document.head.appendChild(script);
+    const bootstrapTracking = () => {
+      const loadTracking = () => {
+        import('./utils/deferredTracking')
+          .then(({ initializeDeferredTracking }) => {
+            initializeDeferredTracking();
+          })
+          .catch(() => {});
+      };
+
+      if ('requestIdleCallback' in window) {
+        idleId = window.requestIdleCallback(loadTracking, { timeout: 4000 });
+      } else {
+        timeoutId = window.setTimeout(loadTracking, 1500);
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      bootstrapTracking();
+    } else {
+      window.addEventListener('load', bootstrapTracking, { once: true });
+    }
 
     return () => {
-      document.head.removeChild(script);
+      window.removeEventListener('load', bootstrapTracking);
+
+      if (idleId !== null && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleId);
+      }
+
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
     };
   }, []);
 
@@ -34,50 +54,46 @@ function App() {
     captureUtmParams();
   }, []);
 
+  useEffect(() => {
+    let frameId = null;
+    let timeoutId = null;
+
+    const enableSecondarySections = () => {
+      setRenderSecondarySections(true);
+    };
+
+    if ('requestAnimationFrame' in window) {
+      frameId = window.requestAnimationFrame(enableSecondarySections);
+    } else {
+      timeoutId = window.setTimeout(enableSecondarySections, 0);
+    }
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, []);
+
   return (
     <div className="font-sans antialiased text-secondary">
-
       <main>
-        {/* Seção 1 - Hero / Captura */}
-        <Hero
-          handleCTAClick={handleCTAClick}
-        />
+        <Hero />
 
-        {/* Seções 2 e 3 - Metodologia */}
-        <Methodology
-          handleCTAClick={handleCTAClick}
-        />
-
-        {/* Seção 4 - Como Aprender Online */}
-        <OnlineLearning
-          handleCTAClick={handleCTAClick}
-        />
-
-        {/* Seção 5 - Módulos */}
-        <Modules
-          handleCTAClick={handleCTAClick}
-        />
-
-        {/* Seção 6 - Depoimentos */}
-        <Testimonials />
-
-        {/* Seção 7 - Instrutores */}
-        <Instructors
-          handleCTAClick={handleCTAClick}
-        />
+        {renderSecondarySections && (
+          <Suspense fallback={null}>
+            <Methodology />
+            <OnlineLearning />
+            <Modules />
+            <Testimonials />
+            <Instructors />
+          </Suspense>
+        )}
       </main>
-
-      {/* Modal de Captura de Leads */}
-      <LeadCaptureModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        source={modalSource}
-      />
-
-      <MobileCTA
-        handleCTAClick={handleCTAClick}
-        variant="plus"
-      />
     </div>
   );
 }

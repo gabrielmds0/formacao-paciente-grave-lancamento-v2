@@ -1,15 +1,7 @@
 import React from 'react';
-import Button from '../components/Button';
-import { MonitorPlay, CheckCircle2, BookOpen, Download, Wifi, Shield, Smartphone, Users, ArrowRight } from 'lucide-react';
+import { MonitorPlay, CheckCircle2, BookOpen, Download, Wifi, Shield, Smartphone, Users } from 'lucide-react';
 
-const OnlineLearning = ({ handleCTAClick }) => {
-  const scrollToHero = () => {
-    const hero = document.getElementById('hero');
-    if (hero) {
-      hero.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
+const OnlineLearning = () => {
   return (
     <section className="py-24 md:py-32 bg-black">
       <div className="container mx-auto px-4">
@@ -194,22 +186,6 @@ const OnlineLearning = ({ handleCTAClick }) => {
                   </div>
                 </div>
 
-                {/* CTA sidebar */}
-                <div className="bg-red-600 rounded-2xl p-8 text-center">
-                  <h4 className="font-black text-2xl text-white mb-4 tracking-tight">Entre para o Grupo VIP</h4>
-                  <p className="text-white/90 mb-6 font-light">
-                    Oferta especial disponível por tempo limitado
-                  </p>
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    className="bg-white text-red-600 hover:bg-gray-100 font-bold px-8 py-3 rounded-xl w-full border-0 inline-flex items-center justify-center space-x-2"
-                    onClick={scrollToHero}
-                  >
-                    <span>Entrar para o Grupo VIP</span>
-                    <ArrowRight size={18} />
-                  </Button>
-                </div>
               </div>
             </div>
           </div>

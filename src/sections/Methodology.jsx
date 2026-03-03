@@ -1,15 +1,7 @@
 import React from 'react';
-import { X, Users, Video, Brain, Stethoscope, Activity, ArrowRight } from 'lucide-react';
-import Button from '../components/Button';
+import { X, Users, Video, Brain, Stethoscope, Activity } from 'lucide-react';
 
-const Methodology = ({ handleCTAClick }) => {
-  const scrollToHero = () => {
-    const hero = document.getElementById('hero');
-    if (hero) {
-      hero.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
+const Methodology = () => {
   return (
     <section className="py-24 md:py-32 bg-white">
       <div className="container mx-auto px-4">
@@ -153,19 +145,6 @@ const Methodology = ({ handleCTAClick }) => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="text-center">
-            <Button
-              variant="primary"
-              size="lg"
-              className="bg-red-600 hover:bg-red-700 text-white font-bold px-12 py-4 rounded-xl border-0 inline-flex items-center space-x-2"
-              onClick={scrollToHero}
-            >
-              <span>Entrar para o Grupo VIP</span>
-              <ArrowRight size={20} />
-            </Button>
           </div>
 
         </div>
