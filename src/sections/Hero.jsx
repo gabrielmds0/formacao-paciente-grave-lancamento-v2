@@ -74,7 +74,7 @@ const Hero = ({ handleCTAClick }) => {
 
           {/* H1 */}
           <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-5 md:mb-6 leading-tight tracking-tight">
-            Domine qualquer paciente grave{' '}
+            Domine o paciente grave{' '}
             <span className="text-red-600">investindo o valor de dois plantões</span>
           </h1>
 
